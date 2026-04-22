@@ -1,24 +1,27 @@
 :root {
   color-scheme: light;
-  --bg: #edf0eb;
-  --bg-accent: #e4ebe5;
-  --shell: rgba(255, 255, 255, 0.72);
-  --surface: rgba(255, 255, 255, 0.9);
-  --surface-strong: #ffffff;
-  --sidebar: #121715;
+  --bg: #ece9e1;
+  --bg-warm: #f6f3ed;
+  --shell: rgba(255, 252, 247, 0.78);
+  --surface: rgba(255, 251, 246, 0.9);
+  --surface-strong: #fffdf8;
+  --sidebar: #171616;
+  --sidebar-soft: rgba(255, 255, 255, 0.06);
   --sidebar-line: rgba(255, 255, 255, 0.1);
-  --text: #16201a;
-  --text-soft: #4f5d54;
-  --text-inverse: #f4f7f4;
-  --text-inverse-soft: #bcc6bf;
-  --line: rgba(22, 32, 26, 0.08);
-  --line-strong: rgba(22, 32, 26, 0.14);
-  --accent: #175f46;
-  --accent-hover: #104c37;
-  --accent-soft: rgba(23, 95, 70, 0.1);
+  --text: #1b1a17;
+  --text-soft: #5b564c;
+  --text-faint: #7a7266;
+  --text-inverse: #f4efe7;
+  --text-inverse-soft: #bcb4a8;
+  --line: rgba(27, 26, 23, 0.08);
+  --line-strong: rgba(27, 26, 23, 0.14);
+  --accent: #284f44;
+  --accent-hover: #1f4037;
+  --accent-soft: rgba(40, 79, 68, 0.1);
+  --incoming: rgba(224, 233, 247, 0.92);
+  --bubble-self: #dde8e2;
   --bubble-peer: #ffffff;
-  --bubble-self: #dcece5;
-  --shadow: 0 30px 80px rgba(18, 24, 20, 0.08);
+  --shadow: 0 28px 80px rgba(34, 28, 20, 0.08);
 }
 
 * {
@@ -32,11 +35,24 @@ body {
 
 body {
   margin: 0;
-  font-family: "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
+  font-family: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(23, 95, 70, 0.06), transparent 22%),
-    linear-gradient(180deg, #f3f5f1 0%, var(--bg) 100%);
+    radial-gradient(circle at top left, rgba(40, 79, 68, 0.08), transparent 22%),
+    radial-gradient(circle at bottom right, rgba(167, 148, 111, 0.08), transparent 26%),
+    linear-gradient(180deg, #f6f2ea 0%, var(--bg) 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)),
+    radial-gradient(rgba(0, 0, 0, 0.016) 0.8px, transparent 0.8px);
+  background-size: auto, 8px 8px;
+  opacity: 0.35;
 }
 
 button,
@@ -46,28 +62,41 @@ input {
 }
 
 .app-shell {
-  width: min(1280px, calc(100vw - 32px));
+  position: relative;
+  width: min(1320px, calc(100vw - 32px));
   min-height: calc(100vh - 32px);
   margin: 16px auto;
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: 310px minmax(0, 1fr);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 32px;
   background: var(--shell);
   box-shadow: var(--shadow);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(22px);
+}
+
+.app-shell::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 310px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(27, 26, 23, 0.08) 12%, rgba(27, 26, 23, 0.08) 88%, transparent 100%);
 }
 
 .sidebar {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  padding: 28px 22px;
+  gap: 24px;
+  padding: 30px 24px;
   color: var(--text-inverse);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 22%),
-    var(--sidebar);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 24%),
+    linear-gradient(180deg, #1a1918 0%, var(--sidebar) 100%);
 }
 
 .eyebrow,
@@ -76,7 +105,7 @@ input {
   margin: 0;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -89,10 +118,17 @@ input {
   color: var(--text-inverse-soft);
 }
 
+.brand-block h1,
+.conversation-title h2 {
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Songti SC", serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
 .brand-block h1 {
   margin: 10px 0 0;
-  font-size: clamp(34px, 4vw, 44px);
-  line-height: 0.96;
+  font-size: clamp(38px, 4vw, 50px);
+  line-height: 0.92;
   color: var(--text-inverse);
 }
 
@@ -100,7 +136,7 @@ input {
 .section-copy,
 .incoming-text,
 .compose-hint {
-  line-height: 1.55;
+  line-height: 1.58;
 }
 
 .subtitle {
@@ -118,7 +154,7 @@ input {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
 }
 
 .identity-block strong,
@@ -139,7 +175,7 @@ input {
   border-radius: 999px;
   color: var(--text-inverse);
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .panel-head {
@@ -150,7 +186,7 @@ input {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-height: 220px;
+  min-height: 240px;
 }
 
 .peer-chip {
@@ -162,22 +198,22 @@ input {
   color: var(--text-inverse);
   text-align: left;
   cursor: pointer;
-  transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
 
 .peer-chip:hover {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.045);
 }
 
 .peer-chip.selected {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.065);
   border-color: rgba(255, 255, 255, 0.08);
 }
 
 .peer-chip.connected {
-  background: rgba(23, 95, 70, 0.3);
-  border-color: rgba(173, 220, 196, 0.18);
+  background: rgba(40, 79, 68, 0.42);
+  border-color: rgba(221, 232, 226, 0.16);
 }
 
 .peer-name,
@@ -188,7 +224,7 @@ input {
 .peer-name {
   color: var(--text-inverse);
   font-weight: 650;
-  line-height: 1.45;
+  line-height: 1.44;
 }
 
 .sidebar-meta {
@@ -215,7 +251,7 @@ button {
   color: #ffffff;
   background: var(--accent);
   cursor: pointer;
-  transition: background 0.16s ease, opacity 0.16s ease, transform 0.16s ease;
+  transition: background 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
 }
 
 button:hover:not(:disabled) {
@@ -239,11 +275,13 @@ button:disabled {
 }
 
 .conversation-shell {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
-  gap: 14px;
+  gap: 16px;
   min-height: 0;
-  padding: 18px;
+  padding: 20px;
 }
 
 .conversation-header,
@@ -257,40 +295,40 @@ button:disabled {
 .conversation-header {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-  padding: 24px;
-  border-radius: 24px;
+  gap: 24px;
+  padding: 26px 28px;
+  border-radius: 26px;
 }
 
 .conversation-title .section-title,
 .transfer-copy .section-title {
-  color: var(--text-soft);
+  color: var(--text-faint);
 }
 
 .conversation-title h2 {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   color: var(--text);
-  font-size: clamp(30px, 4vw, 38px);
-  line-height: 1.04;
-  font-weight: 650;
+  font-size: clamp(34px, 4vw, 44px);
+  line-height: 0.98;
 }
 
 .conversation-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  align-self: flex-start;
 }
 
 .meta-chip {
-  min-width: 152px;
+  min-width: 156px;
   padding: 14px 16px;
   border-radius: 18px;
-  background: rgba(22, 32, 26, 0.03);
-  border: 1px solid rgba(22, 32, 26, 0.04);
+  background: rgba(27, 26, 23, 0.03);
+  border: 1px solid rgba(27, 26, 23, 0.04);
 }
 
 .meta-chip .meta-label {
-  color: var(--text-soft);
+  color: var(--text-faint);
 }
 
 .meta-chip strong {
@@ -306,7 +344,7 @@ button:disabled {
   margin-top: 10px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(22, 32, 26, 0.08);
+  background: rgba(27, 26, 23, 0.08);
 }
 
 .progress-bar {
@@ -323,11 +361,11 @@ button:disabled {
   align-items: center;
   padding: 18px 22px;
   border-radius: 20px;
-  background: rgba(229, 236, 251, 0.86);
+  background: var(--incoming);
 }
 
 .incoming-panel .section-title {
-  color: var(--text-soft);
+  color: var(--text-faint);
 }
 
 .incoming-text {
@@ -337,30 +375,33 @@ button:disabled {
 
 .chat-shell {
   min-height: 0;
-  padding: 12px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.64);
+  padding: 14px;
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 249, 0.72), rgba(248, 245, 239, 0.86));
 }
 
 .chat-log {
-  min-height: 420px;
+  min-height: 430px;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 20px;
+  padding: 22px;
   overflow: auto;
-  border-radius: 18px;
+  border-radius: 20px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(247, 249, 247, 0.94));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(252, 249, 244, 0.94));
+  border: 1px solid rgba(27, 26, 23, 0.04);
 }
 
 .chat-message {
   max-width: min(68%, 560px);
-  padding: 12px 14px;
+  padding: 13px 15px;
   border-radius: 18px 18px 18px 8px;
   background: var(--bubble-peer);
-  border: 1px solid rgba(22, 32, 26, 0.06);
+  border: 1px solid rgba(27, 26, 23, 0.06);
+  box-shadow: 0 10px 24px rgba(27, 26, 23, 0.03);
 }
 
 .chat-message.self {
@@ -372,7 +413,7 @@ button:disabled {
 .chat-author {
   display: block;
   margin-bottom: 6px;
-  color: var(--text-soft);
+  color: var(--text-faint);
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -382,14 +423,14 @@ button:disabled {
   color: var(--text);
   white-space: pre-wrap;
   word-break: break-word;
-  line-height: 1.58;
+  line-height: 1.6;
 }
 
 .composer-shell {
   display: grid;
   gap: 12px;
   padding: 14px;
-  border-radius: 24px;
+  border-radius: 26px;
   background: var(--surface-strong);
 }
 
@@ -400,7 +441,7 @@ button:disabled {
   align-items: center;
   padding: 12px 14px;
   border-radius: 18px;
-  background: rgba(22, 32, 26, 0.026);
+  background: rgba(27, 26, 23, 0.026);
 }
 
 .transfer-copy .section-copy {
@@ -413,9 +454,9 @@ button:disabled {
   min-height: 52px;
   padding: 0 16px;
   color: var(--text);
-  border: 1px dashed rgba(23, 95, 70, 0.24);
+  border: 1px dashed rgba(40, 79, 68, 0.22);
   border-radius: 16px;
-  background: rgba(23, 95, 70, 0.04);
+  background: rgba(40, 79, 68, 0.04);
   cursor: pointer;
 }
 
@@ -425,7 +466,7 @@ button:disabled {
 
 .chat-compose {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 210px;
+  grid-template-columns: minmax(0, 1fr) 220px;
   gap: 12px;
   align-items: stretch;
 }
@@ -442,7 +483,7 @@ button:disabled {
 }
 
 .chat-compose textarea::placeholder {
-  color: #66746b;
+  color: #666053;
 }
 
 .chat-actions {
@@ -457,12 +498,23 @@ button:disabled {
   padding: 14px;
   color: var(--text-soft);
   border-radius: 18px;
-  background: rgba(22, 32, 26, 0.03);
+  background: rgba(27, 26, 23, 0.03);
 }
 
 .empty-text {
   margin: 0;
   color: var(--text-soft);
+}
+
+.chat-log::-webkit-scrollbar {
+  width: 10px;
+}
+
+.chat-log::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(27, 26, 23, 0.14);
+  background-clip: padding-box;
 }
 
 .overlay {
@@ -473,27 +525,30 @@ button:disabled {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(10, 15, 12, 0.42);
-  backdrop-filter: blur(10px);
+  background: rgba(12, 12, 12, 0.42);
+  backdrop-filter: blur(12px);
 }
 
 .overlay-card {
-  width: min(500px, 100%);
-  padding: 28px;
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.74);
-  box-shadow: 0 28px 60px rgba(18, 24, 20, 0.16);
+  width: min(520px, 100%);
+  padding: 30px;
+  border-radius: 26px;
+  background: rgba(255, 252, 247, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 32px 70px rgba(27, 26, 23, 0.16);
 }
 
 .overlay-card .section-title {
-  color: var(--text-soft);
+  color: var(--text-faint);
 }
 
 .overlay-card h3 {
   margin: 10px 0 12px;
   color: var(--text);
-  font-size: 28px;
+  font-size: 30px;
+  line-height: 1.06;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", "Songti SC", serif;
+  font-weight: 600;
 }
 
 .overlay-card p {
@@ -506,7 +561,11 @@ button:disabled {
 
 @media (max-width: 1120px) {
   .app-shell {
-    grid-template-columns: 300px minmax(0, 1fr);
+    grid-template-columns: 292px minmax(0, 1fr);
+  }
+
+  .app-shell::after {
+    left: 292px;
   }
 
   .transfer-toolbar {
@@ -516,9 +575,13 @@ button:disabled {
 
 @media (max-width: 860px) {
   .app-shell {
-    width: min(100vw - 20px, 1280px);
+    width: min(100vw - 20px, 1320px);
     margin: 10px auto;
     grid-template-columns: 1fr;
+  }
+
+  .app-shell::after {
+    display: none;
   }
 
   .conversation-header,
@@ -542,7 +605,7 @@ button:disabled {
   }
 
   .sidebar {
-    padding: 18px 16px;
+    padding: 20px 16px;
   }
 
   .conversation-shell {
