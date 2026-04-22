@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LocalShare</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar">
+        <section class="brand-block">
+          <p class="eyebrow">LAN Messenger</p>
+          <h1>LocalShare</h1>
+          <p class="subtitle">局域网单会话聊天与文件传输。</p>
+        </section>
+
+        <section class="identity-block">
+          <div>
+            <span class="meta-label">本机地址</span>
+            <strong id="hostname">-</strong>
+          </div>
+          <strong id="role-badge" class="role-badge">空闲中</strong>
+        </section>
+
+        <section class="device-block">
+          <div class="panel-head">
+            <div>
+              <p class="section-title">在线设备</p>
+              <p class="section-copy">选择一台设备进入当前会话。</p>
+            </div>
+          </div>
+
+          <div id="peer-list" class="peer-list">
+            <p class="empty-text">暂无其他在线设备</p>
+          </div>
+
+          <div class="sidebar-meta">
+            <span class="meta-label">当前目标</span>
+            <strong id="current-target">未选择</strong>
+          </div>
+
+          <div class="button-row sidebar-actions">
+            <button id="connect-button" type="button" disabled>建立会话</button>
+            <button id="disconnect-button" type="button" class="secondary" disabled>断开会话</button>
+          </div>
+        </section>
+      </aside>
+
+      <section class="conversation-shell">
+        <header class="conversation-header">
+          <div class="conversation-title">
+            <p class="section-title">聊天通道</p>
+            <h2 id="chat-target">未连接</h2>
+          </div>
+          <div class="conversation-meta">
+            <div class="meta-chip">
+              <span class="meta-label">已选择设备</span>
+              <strong id="file-target">未选择</strong>
+            </div>
+            <div class="meta-chip">
+              <span class="meta-label">传输状态</span>
+              <strong id="status-text">等待连接</strong>
+            </div>
+            <div class="meta-chip progress-chip">
+              <span class="meta-label">进度</span>
+              <div class="progress-shell">
+                <div id="progress-bar" class="progress-bar"></div>
+              </div>
+              <strong id="progress-text">0%</strong>
+            </div>
+          </div>
+        </header>
+
+        <section id="incoming-panel" class="incoming-panel hidden">
+          <div>
+            <p class="section-title">接收请求</p>
+            <p id="incoming-text" class="incoming-text">暂无请求</p>
+          </div>
+          <div class="button-row">
+            <button id="accept-button" type="button">接受</button>
+            <button id="reject-button" type="button" class="secondary">拒绝</button>
+          </div>
+        </section>
+
+        <section class="chat-shell">
+          <div id="chat-log" class="chat-log">
+            <p class="empty-text">建立会话后，就可以在这里聊天。</p>
+          </div>
+        </section>
+
+        <section class="composer-shell">
+          <div class="transfer-toolbar">
+            <div class="transfer-copy">
+              <p class="section-title">文件传输</p>
+              <p class="section-copy">把文件直接发给当前会话中的设备。</p>
+            </div>
+            <label class="file-picker" for="file-input">
+              <span id="file-label">选择一个文件</span>
+              <input id="file-input" type="file">
+            </label>
+            <div class="button-row transfer-actions">
+              <button id="send-button" type="button" disabled>发送文件</button>
+              <button id="cancel-button" type="button" class="secondary hidden">取消发送</button>
+            </div>
+          </div>
+
+          <div class="chat-compose">
+            <textarea id="chat-input" rows="4" placeholder="输入消息，按 Ctrl/Cmd + Enter 发送..." disabled></textarea>
+            <div class="chat-actions">
+              <p class="compose-hint">支持多行消息，适合发命令、日志和说明。</p>
+              <button id="chat-send-button" type="button" disabled>发送文字</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <div id="incoming-overlay" class="overlay hidden">
+        <section class="overlay-card">
+          <p class="section-title">收到会话请求</p>
+          <h3>有设备想和你建立会话</h3>
+          <p id="incoming-overlay-text">暂无请求</p>
+          <div class="button-row">
+            <button id="overlay-accept-button" type="button">接受</button>
+            <button id="overlay-reject-button" type="button" class="secondary">拒绝</button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
